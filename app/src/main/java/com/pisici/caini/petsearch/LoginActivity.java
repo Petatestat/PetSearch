@@ -1,5 +1,6 @@
 package com.pisici.caini.petsearch;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -54,15 +55,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
             //OnClick care duce la activitatea de signup
-           /* mSignupBtn.setOnClickListener(new View.OnClickListener() {
+            mSignupBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(LoginActivity.this, SignupActivity.class);
                     startActivityForResult(i, 1);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+                    //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                 }
             });
-
+/*
             //OnClick pentru logare
             mLoginBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,7 +95,16 @@ public class LoginActivity extends AppCompatActivity {
     void makeToast(String string){
         Toast.makeText(LoginActivity.this, string,Toast.LENGTH_SHORT).show();
     }
-    //pune datele in obiectul
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //asta e pentru cand vine din signup, completeaza automat campurile
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            mPasswordEt.setText(data.getStringExtra("pass"));
+            mEmailEt.setText(data.getStringExtra("email"));
+        }
+    }
+    //pune datele in obiectul user
     public void retrieve_user() {
         /*final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
