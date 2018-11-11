@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +15,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     ImageView logo;
     Button mresend_verificationBtn;
     Button mreset_passwordBtn;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                     //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                 }
             });
-/*
+
             //OnClick pentru logare
             mLoginBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,9 +89,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 resetpassword();
             }
-        });*/
+        });
 
-    }
+
     }
     //functie care verifica daca esti conectat la net
     protected boolean verifyInternetConnectivty() {
@@ -104,9 +115,39 @@ public class LoginActivity extends AppCompatActivity {
             mEmailEt.setText(data.getStringExtra("email"));
         }
     }
+    //practic incearca logarea
+    void login() {
+        if (!mEmailEt.getText().toString().isEmpty() && !mPasswordEt.getText().toString().isEmpty()) {
+            //daca stringurile sunt goale da crash metoda de la firebase
+            mAuth.signInWithEmailAndPassword(mEmailEt.getText().toString().trim(),
+                    mPasswordEt.getText().toString().trim())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // A mers
+                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                if (user.isEmailVerified()) {
+                                    retrieve_user();
+                                } else {
+                                    makeToast("Please verify your email adress before you sign in");
+                                    makeresendvisible();
+                                }
+
+                            } else {
+                                // Nu a mers
+                                makeToast("Invalid credentials");
+                            }
+                        }
+                    });
+        } else {
+            makeToast("Please enter your credentials");
+        }
+    }
     //pune datele in obiectul user
     public void retrieve_user() {
-        /*final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference myRef = database;
         user = new User();
@@ -119,10 +160,11 @@ public class LoginActivity extends AppCompatActivity {
                 String LobbyID = dataSnapshot.child("id").child(uid).child("Lobby").getValue(String.class);
                 //daca nu, te duce in meniu
                 Log.v("log", "trimis in meniu din onDataChange");
-                Intent i = new Intent(LoginActivity.this, MenuActivity.class);
+                /*Intent i = new Intent(LoginActivity.this, MenuActivity.class);
                 i.putExtra("User", user);
                 startActivity(i);
-                finish();
+                finish();*/
+                makeToast("a mers");
             }
 
             @Override
@@ -130,7 +172,48 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, databaseError.toException().toString(), Toast.LENGTH_LONG).show();
             }
 
-        });*/
+        });
 
+    }
+    void resetpassword() {
+        String email = mEmailEt.getText().toString().trim();
+        if (!isEmailValid(email))
+            makeToast("Please enter your email");
+        else {
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                makeToast("Password reset email sent");
+                            }
+                        }
+                    });
+        }
+    }
+    void makeresendvisible() {
+        mresend_verificationBtn.setEnabled(true);
+        mresend_verificationBtn.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        final FirebaseUser fuser = mAuth.getCurrentUser();
+        mresend_verificationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fuser.sendEmailVerification()
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener() {
+                            @Override
+                            public void onComplete(@NonNull Task task) {
+                                if (task.isSuccessful()) {
+                                    makeToast("Verification email sent to " + fuser.getEmail());
+                                } else {
+                                    makeToast("Failed to send verification email.");
+                                }
+                            }
+                        });
+            }
+        });
+
+    }
+    boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }
