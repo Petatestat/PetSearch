@@ -9,4 +9,5 @@
     <string name="password">Password</string>
     <string name="signin">Sign in</string>
     <string name="upload_photo">Upload a photo</string>
+    <string name="loginBtn">Login</string>
 </resources>
