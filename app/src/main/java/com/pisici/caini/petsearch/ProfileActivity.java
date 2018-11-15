@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
                 AlertDialog.Builder new_pet_dialog = new AlertDialog.Builder(ProfileActivity.this);
                 View dialog_view = getLayoutInflater().inflate(R.layout.add_pet_dialog, null);
                 EditText mnameEt=dialog_view.findViewById(R.id.NameEt);
-                Switch mspeciesSwitch=dialog_view.findViewById(R.id.Species_Switch);
+                RadioGroup mspeciesRG=dialog_view.findViewById(R.id.speciesRG);
                 Spinner mraceSpinner=dialog_view.findViewById(R.id.species_spinner);
                 new_pet_dialog.setView(dialog_view);
                 final AlertDialog dialog = new_pet_dialog.create();
