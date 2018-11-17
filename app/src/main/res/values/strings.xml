@@ -10,4 +10,6 @@
     <string name="signin">Sign in</string>
     <string name="upload_photo">Upload a photo</string>
     <string name="loginBtn">Login</string>
+    <string name="dog">Dog</string>
+    <string name="cat">Cat</string>
 </resources>

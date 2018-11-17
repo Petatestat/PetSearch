@@ -3,10 +3,26 @@ enum species{
     Dog,Cat
 }
 enum Dog_breed{
-    Akita, Pomeranian, Bulldog, None
+    Akita ("Akita"), Pomeranian ("Pomeranian"), Bulldog ("Bulldog");
+    private String displayName;
+    Dog_breed(String displayName){
+        this.displayName=displayName;
+    }
+    public String displayName() { return displayName; }
+    @Override public String toString(){
+        return displayName;
+    }
 }
 enum Cat_breed{
-    Siamese, Bengal, Birman, None
+    Siamese ("Siamese"), Bengal ("Bengal"), Birman ("Birman");
+    private String displayName;
+    Cat_breed(String displayName){
+        this.displayName=displayName;
+    }
+    public String displayName() { return displayName; }
+    @Override public String toString(){
+        return displayName;
+    }
 }
 public class Pet {
     private int year, day, month,number;
@@ -60,4 +76,35 @@ public class Pet {
         return cat_breed;
     }
 
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSpecies(com.pisici.caini.petsearch.species species) {
+        this.species = species;
+    }
+
+    public void setDog_breed(Dog_breed dog_breed) {
+        this.dog_breed = dog_breed;
+    }
+
+    public void setCat_breed(Cat_breed cat_breed) {
+        this.cat_breed = cat_breed;
+    }
 }
