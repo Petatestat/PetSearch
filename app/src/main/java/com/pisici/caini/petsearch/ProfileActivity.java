@@ -1,18 +1,14 @@
 package com.pisici.caini.petsearch;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -36,36 +32,42 @@ public class ProfileActivity extends AppCompatActivity {
                 AlertDialog.Builder new_pet_dialog = new AlertDialog.Builder(ProfileActivity.this);
 
                 View dialog_view = getLayoutInflater().inflate(R.layout.add_pet_dialog, null);
-                EditText mnameEt=dialog_view.findViewById(R.id.NameEt);
+                EditText mnameEt=dialog_view.findViewById(R.id.pet_nameEt);
+                EditText mdateEt=dialog_view.findViewById(R.id.dateEt);
                 RadioGroup mspeciesRG=dialog_view.findViewById(R.id.speciesRG);
-                Spinner mraceSpinner=dialog_view.findViewById(R.id.species_spinner);
-                mraceSpinner.setAdapter(new ArrayAdapter<Dog_breed>(ProfileActivity.this, android.R.layout.simple_spinner_item,Dog_breed.values()));
 
-
+                final Spinner mraceSpinner=dialog_view.findViewById(R.id.species_spinner);
                 mspeciesRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
                     switch (checkedId){
                         case R.id.dogRb:
-                            new_animal.setSpecies(species.Dog);
-
+                            spinner_change_dog(mraceSpinner);
                             break;
                         case R.id.catRb:
-                            new_animal.setSpecies(species.Dog);
-                            // spinner_setValues(Dog_breed)
+                            spinner_change_cat(mraceSpinner);
                             break;
                             default:
                                 break;
                         }
                     }
                 });
-
+                mspeciesRG.check(R.id.dogRb);
                 new_pet_dialog.setView(dialog_view);
                 final AlertDialog dialog = new_pet_dialog.create();
-
                 dialog.show();
             }
         });
+    }
+    void spinner_change_dog(Spinner mraceSpinner){
+        mraceSpinner.setAdapter(new ArrayAdapter<Dog_breed>(ProfileActivity.this,
+                android.R.layout.simple_spinner_item,Dog_breed.values()));
+
+    }
+    void spinner_change_cat(Spinner mraceSpinner){
+        mraceSpinner.setAdapter(new ArrayAdapter<Cat_breed>(ProfileActivity.this,
+                android.R.layout.simple_spinner_item,Cat_breed.values()));
+
     }
 
 }

@@ -1,7 +1,7 @@
 package com.pisici.caini.petsearch;
-enum species{
-    Dog,Cat
-}
+
+import java.util.Date;
+
 enum Dog_breed{
     Akita ("Akita"), Pomeranian ("Pomeranian"), Bulldog ("Bulldog");
     private String displayName;
@@ -25,67 +25,32 @@ enum Cat_breed{
     }
 }
 public class Pet {
-    private int year, day, month,number;
+    private int number;
     String name;
-    species species;
-    Dog_breed dog_breed;
-    Cat_breed cat_breed;
+    private Date birthday;
 
-    public Pet(int year, int day, int month, int number, String name,
-               com.pisici.caini.petsearch.species species, Dog_breed dog_breed, Cat_breed cat_breed) {
-        this.year = year;
-        this.day = day;
-        this.month = month;
+    public Pet(int number, String name, Date birtday) {
         this.number = number;
         this.name = name;
-        this.species = species;
-        this.dog_breed = dog_breed;
-        this.cat_breed = cat_breed;
+        this.birthday = birtday;
     }
+
     public Pet(){};
-
-    public int getYear() {
-        return year;
-    }
-
-    public int getDay() {
-        return day;
-    }
-
-    public int getMonth() {
-        return month;
-    }
 
     public int getNumber() {
         return number;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     public String getName() {
         return name;
-    }
-
-    public com.pisici.caini.petsearch.species getSpecies() {
-        return species;
-    }
-
-    public Dog_breed getDog_breed() {
-        return dog_breed;
-    }
-
-    public Cat_breed getCat_breed() {
-        return cat_breed;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public void setDay(int day) {
-        this.day = day;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
     }
 
     public void setNumber(int number) {
@@ -96,15 +61,40 @@ public class Pet {
         this.name = name;
     }
 
-    public void setSpecies(com.pisici.caini.petsearch.species species) {
-        this.species = species;
-    }
+    public class Dog extends Pet{
+        Dog_breed dog_breed;
 
-    public void setDog_breed(Dog_breed dog_breed) {
-        this.dog_breed = dog_breed;
-    }
+        public Dog( int number, String name,Date birthday, Dog_breed dog_breed) {
+            super(number, name, birthday);
+            this.dog_breed = dog_breed;
+        }
 
-    public void setCat_breed(Cat_breed cat_breed) {
-        this.cat_breed = cat_breed;
+        public Dog() {}
+
+        public Dog_breed getDog_breed() {
+            return dog_breed;
+        }
+
+        public void setDog_breed(Dog_breed dog_breed) {
+            this.dog_breed = dog_breed;
+        }
+    }
+    public class Cat extends Pet{
+        Cat_breed cat_breed;
+
+        public Cat(int number, String name,Date birthday, Cat_breed cat_breed) {
+            super(number, name, birthday);
+            this.cat_breed = cat_breed;
+        }
+
+        public Cat() {}
+
+        public Cat_breed getCat_breed() {
+            return cat_breed;
+        }
+
+        public void setCat_breed(Cat_breed cat_breed) {
+            this.cat_breed = cat_breed;
+        }
     }
 }
