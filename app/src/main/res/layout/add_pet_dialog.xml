@@ -1,55 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/species_spinner"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="395dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/speciesRG" />
+        android:layout_height="match_constraint"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="247dp">
+
+        <Spinner
+            android:id="@+id/species_spinner"
+            android:layout_width="395dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="455dp"
+            android:background="@drawable/buttonstyle"
+            android:hint="@string/specie"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <RadioGroup
         android:id="@+id/speciesRG"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="342dp"
+        android:layout_height="150dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pet_nameEt">
 
         <RadioButton
             android:id="@+id/dogRb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="153dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/dog" />
+            android:background="@drawable/customradiobuttondog"
+            android:button="@null"
+            android:textColorLink="@color/colorPrimaryDark" />
 
         <RadioButton
             android:id="@+id/catRb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="154dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/cat" />
+            android:background="@drawable/customradiobuttoncat"
+            android:button="@null" />
     </RadioGroup>
 
     <EditText
         android:id="@+id/pet_nameEt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Name"
+        android:background="@drawable/buttonstyle"
+        android:textColorHint="@color/white"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -57,18 +75,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/pet_dateEt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/dateEt"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/buttonstyle"
         android:ems="10"
         android:hint="DD/MM/YYYY"
         android:inputType="date"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/pet_nameEt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/species_spinner" />
+        app:layout_constraintTop_toBottomOf="parent" />
+
+
 
     <Button
         android:id="@+id/mpet_photoBtn"
@@ -78,7 +101,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/upload_photo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pet_dateEt" />
+        app:layout_constraintTop_toBottomOf="@+id/dateEt" />
 
     <CheckBox
         android:id="@+id/mpet_photoCheckbox"
@@ -89,7 +112,7 @@
         app:layout_constraintStart_toEndOf="@+id/mpet_photoBtn" />
 
     <Button
-        android:id="@+id/dialog_addPetBtn"
+        android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

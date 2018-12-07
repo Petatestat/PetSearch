@@ -12,4 +12,5 @@
     <string name="loginBtn">Login</string>
     <string name="dog">Dog</string>
     <string name="cat">Cat</string>
+    <string name="specie">Select species</string>
 </resources>
