@@ -7,6 +7,8 @@ public class User implements Serializable {
     private String Last_name = "null";
     private String Email= "null";
     private String Phone= "07noidoi";
+    private int Number_of_pets=0;
+    private Pet[] pets;
 
     public User(String first_name,String last_name,String email, String phone) {
         First_name = first_name;
@@ -46,5 +48,13 @@ public class User implements Serializable {
 
     public void setPhone(String phone) {
         Phone = phone;
+    }
+
+    public int getNumber_of_pets() {
+        return Number_of_pets;
+    }
+
+    public void setNumber_of_pets(int number_of_pets) {
+        Number_of_pets = number_of_pets;
     }
 }
