@@ -3,7 +3,7 @@ package com.pisici.caini.petsearch;
 import java.util.Date;
 
 enum Dog_breed{
-    Akita ("Akita"), Pomeranian ("Pomeranian"), Bulldog ("Bulldog");
+    Akita ("Akita"), Pomeranian ("Pomeranian"), Bulldog ("Bulldog"), Labrador ("Labrador"),  Beagle ("Beagle"), Chihuahua ("Chihuahua"), GoldenRetriever ("Golden Retriver"), Pug("Pug") ,Pitbull("Pitbull"), Mixed("Mixed");
     private String displayName;
     Dog_breed(String displayName){
         this.displayName=displayName;
@@ -14,7 +14,7 @@ enum Dog_breed{
     }
 }
 enum Cat_breed{
-    Siamese ("Siamese"), Bengal ("Bengal"), Birman ("Birman");
+    Siamese ("Siamese"), Bengal ("Bengal"), Birman ("Birman"), Persan ("Persan"), Ragdoll("Ragdoll"), Sphinx("Sphinx"), Savannah("Savannah"), Mixed("Mixed");
     private String displayName;
     Cat_breed(String displayName){
         this.displayName=displayName;
@@ -27,8 +27,8 @@ enum Cat_breed{
 public class Pet {
     private int number;
     String name;
-    private Date birthday;
 
+    private Date birthday;
     public Pet(int number, String name, Date birtday) {
         this.number = number;
         this.name = name;

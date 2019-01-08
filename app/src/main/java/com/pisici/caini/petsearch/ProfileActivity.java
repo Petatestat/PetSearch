@@ -25,6 +25,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.txtcolorspin);
+
         mnameTv=(TextView) findViewById(R.id.nameTV);
         maddpetBtn=(Button) findViewById(R.id.addpetBtn);
         maddpetBtn.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +89,8 @@ public class ProfileActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,Cat_breed.values()));
 
     }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
