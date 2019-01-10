@@ -1,9 +1,12 @@
 package com.pisici.caini.petsearch;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 enum Dog_breed{
-    Akita ("Akita"), Pomeranian ("Pomeranian"), Bulldog ("Bulldog"), Labrador ("Labrador"),  Beagle ("Beagle"), Chihuahua ("Chihuahua"), GoldenRetriever ("Golden Retriver"), Pug("Pug") ,Pitbull("Pitbull"), Mixed("Mixed");
+    Akita ("Akita"), Pomeranian ("Pomeranian"), Bulldog ("Bulldog");
     private String displayName;
     Dog_breed(String displayName){
         this.displayName=displayName;
@@ -25,21 +28,18 @@ enum Cat_breed{
     }
 }
 public class Pet {
-    private int number;
+    private String id;
     String name;
-
     private Date birthday;
-    public Pet(int number, String name, Date birtday) {
-        this.number = number;
+
+    public Pet(String id, String name, Date birtday) {
+        this.id = id;
         this.name = name;
         this.birthday = birtday;
     }
 
     public Pet(){};
 
-    public int getNumber() {
-        return number;
-    }
 
     public Date getBirthday() {
         return birthday;
@@ -53,19 +53,15 @@ public class Pet {
         return name;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public class Dog extends Pet{
+    public static class Dog extends Pet{
         Dog_breed dog_breed;
 
-        public Dog( int number, String name,Date birthday, Dog_breed dog_breed) {
-            super(number, name, birthday);
+        public Dog(String id, String name,Date birthday, Dog_breed dog_breed) {
+            super(id, name, birthday);
             this.dog_breed = dog_breed;
         }
 
@@ -79,11 +75,11 @@ public class Pet {
             this.dog_breed = dog_breed;
         }
     }
-    public class Cat extends Pet{
+    public static class Cat extends Pet{
         Cat_breed cat_breed;
 
-        public Cat(int number, String name,Date birthday, Cat_breed cat_breed) {
-            super(number, name, birthday);
+        public Cat(String id, String name,Date birthday, Cat_breed cat_breed) {
+            super(id, name, birthday);
             this.cat_breed = cat_breed;
         }
 
@@ -97,4 +93,18 @@ public class Pet {
             this.cat_breed = cat_breed;
         }
     }
+    public static String getNewID() {
+        // generate random lobby key
+        String key = "";
+        for (int i = 0; i < 20; ++i) {
+            Random r = new Random();
+            char rand = (char) (r.nextInt(74) + 48);
+            while (rand == 91 || rand == 93) {
+                rand = (char) (r.nextInt(74) + 48);
+            }
+            key += Character.toString(rand);
+        }
+        return key;
+    }
+    //TODO: Add age calculator
 }
