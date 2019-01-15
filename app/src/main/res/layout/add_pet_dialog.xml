@@ -80,7 +80,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/dateEt"
+        android:id="@+id/pet_dateEt"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginStart="16dp"
@@ -91,8 +91,8 @@
         android:ems="10"
         android:hint="DD/MM/YYYY"
         android:inputType="date"
-        android:textColorHint="@color/colorPrimaryDark"
         android:textColor="@color/colorPrimaryDark"
+        android:textColorHint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toTopOf="@+id/mpet_photoBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +109,7 @@
         android:background="@drawable/buttonstyle"
         android:text="@string/upload_photo"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/dialog_addPetBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -124,7 +124,7 @@
         app:layout_constraintStart_toEndOf="@+id/mpet_photoBtn" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/dialog_addPetBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

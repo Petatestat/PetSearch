@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -29,7 +28,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        mnameTv=(TextView) findViewById(R.id.nameTV);
+        mnameTv=(TextView) findViewById(R.id.emailTV);
         maddpetBtn=(Button) findViewById(R.id.addpetBtn);
         maddpetBtn.setOnClickListener(new View.OnClickListener() {
             @Override

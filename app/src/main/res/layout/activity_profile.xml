@@ -19,7 +19,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/nameTV"
+                android:id="@+id/emailTV"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="72dp"
@@ -103,7 +103,7 @@
                 android:background="@drawable/editstyletext"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nameTV" />
+                app:layout_constraintTop_toBottomOf="@+id/emailTV" />
 
             <TextView
                 android:id="@+id/textView3"
