@@ -17,7 +17,7 @@ enum Dog_breed{
     }
 }
 enum Cat_breed{
-    Siamese ("Siamese"), Bengal ("Bengal"), Birman ("Birman");
+    Siamese ("Siamese"), Bengal ("Bengal"), Birman ("Birman"), Persan ("Persan"), Ragdoll("Ragdoll"), Sphinx("Sphinx"), Savannah("Savannah"), Mixed("Mixed");
     private String displayName;
     Cat_breed(String displayName){
         this.displayName=displayName;
