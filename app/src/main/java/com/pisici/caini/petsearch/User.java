@@ -3,12 +3,11 @@ package com.pisici.caini.petsearch;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private String First_name = "nu a mers:(";
+    private String First_name = "null";
     private String Last_name = "null";
     private String Email= "null";
-    private String Phone= "07noidoi";
-    private int Number_of_pets=0;
-    private Pet[] pets;
+    private String Phone= "null";
+    private String PetId="null";
 
     public User(String first_name,String last_name,String email, String phone) {
         First_name = first_name;
@@ -50,11 +49,5 @@ public class User implements Serializable {
         Phone = phone;
     }
 
-    public int getNumber_of_pets() {
-        return Number_of_pets;
-    }
 
-    public void setNumber_of_pets(int number_of_pets) {
-        Number_of_pets = number_of_pets;
-    }
 }
