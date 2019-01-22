@@ -89,7 +89,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/editstyletext"
         android:ems="10"
-        android:hint="DD/MM/YYYY"
+        android:hint="Birthday"
         android:inputType="date"
         android:textColor="@color/colorPrimaryDark"
         android:textColorHint="@color/colorPrimaryDark"

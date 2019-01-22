@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars[3]" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageView4"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
