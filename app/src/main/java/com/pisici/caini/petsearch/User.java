@@ -49,5 +49,11 @@ public class User implements Serializable {
         Phone = phone;
     }
 
+    public String getPetId() {
+        return PetId;
+    }
 
+    public void setPetId(String petId) {
+        PetId = petId;
+    }
 }

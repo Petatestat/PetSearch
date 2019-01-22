@@ -1,5 +1,6 @@
 package com.pisici.caini.petsearch;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.CountDownTimer;
@@ -10,57 +11,80 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 public class ProfileActivity extends AppCompatActivity {
     TextView mnameTv;
     Button maddpetBtn;
     Uri file;
-        @Override
+    User user;
+    Boolean photo;
+    private StorageReference mStorageRef;
+    private DatabaseReference mDatabase;
+
+    @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        mnameTv=(TextView) findViewById(R.id.emailTV);
-        maddpetBtn=(Button) findViewById(R.id.addpetBtn);
+        mnameTv = (TextView) findViewById(R.id.emailTV);
+        maddpetBtn = (Button) findViewById(R.id.addpetBtn);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        user = (User) getIntent().getSerializableExtra("User");
+        photo = false;
         maddpetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Dialog add pet
-                //Todo: add break condition(max number of pets)
-                final Pet new_animal=new Pet();
+                final Pet new_animal = new Pet();
                 AlertDialog.Builder new_pet_dialog = new AlertDialog.Builder(ProfileActivity.this);
 
                 View dialog_view = getLayoutInflater().inflate(R.layout.add_pet_dialog, null);
-                final EditText mnameEt=dialog_view.findViewById(R.id.pet_nameEt);
-                final EditText mdateEt=dialog_view.findViewById(R.id.pet_dateEt);
-                Button mphotoBtn=dialog_view.findViewById(R.id.mpet_photoBtn);
-                Button maddPetBtn=dialog_view.findViewById(R.id.dialog_addPetBtn);
-                final RadioGroup mspeciesRG=dialog_view.findViewById(R.id.speciesRG);
-                final Spinner mraceSpinner=dialog_view.findViewById(R.id.species_spinner);
+                final EditText mnameEt = dialog_view.findViewById(R.id.pet_nameEt);
+                final EditText mdateEt = dialog_view.findViewById(R.id.pet_dateEt);
+                Button mphotoBtn = dialog_view.findViewById(R.id.mpet_photoBtn);
+                Button maddPetBtn = dialog_view.findViewById(R.id.dialog_addPetBtn);
+                final RadioGroup mspeciesRG = dialog_view.findViewById(R.id.speciesRG);
+                final Spinner mraceSpinner = dialog_view.findViewById(R.id.species_spinner);
+
+                new_pet_dialog.setView(dialog_view);
+
+                final AlertDialog dialog = new_pet_dialog.create();
 
                 mspeciesRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    switch (checkedId){
-                        case R.id.dogRb:
-                            spinner_change_dog(mraceSpinner);
-                            break;
-                        case R.id.catRb:
-                            spinner_change_cat(mraceSpinner);
-                            break;
+                        switch (checkedId) {
+                            case R.id.dogRb:
+                                spinner_change_dog(mraceSpinner);
+                                break;
+                            case R.id.catRb:
+                                spinner_change_cat(mraceSpinner);
+                                break;
                             default:
                                 break;
                         }
                     }
-                    });
+                });
 
                 mphotoBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -76,78 +100,118 @@ public class ProfileActivity extends AppCompatActivity {
                 maddPetBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Date birthday;
-                        SimpleDateFormat date=new SimpleDateFormat("dd/MM/yyyy");
-                        try{
-                        birthday=date.parse(mdateEt.getText().toString().trim());}
-                        catch (java.text.ParseException e){
-                            makeToast("birthday is not a valid format");
-                            Log.v("log","data nu a fost valida la parse");
-                            return;
+
+                        if (mspeciesRG.getCheckedRadioButtonId() == R.id.dogRb) {
+                            Log.v("log", "trimis in add_pet cu dog");
+                            add_pet(true, mnameEt.getText().toString().trim(), mdateEt.getText().toString().trim(),
+                                    (Dog_breed) mraceSpinner.getSelectedItem(), Cat_breed.Bengal);
+                            dialog.cancel();
+
                         }
-                        if(mspeciesRG.getCheckedRadioButtonId()==R.id.dogRb)
-                        {   Log.v("log","trimis in add_pet cu dog");
-                            add_pet(true,mnameEt.toString().trim(),birthday,
-                                    (Dog_breed) mraceSpinner.getSelectedItem(),Cat_breed.Bengal);}
+                        //TODO:add cat branch
+                    }
+                });
+                mdateEt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Calendar c = Calendar.getInstance();
+                        final int mDay, mYear, mMonth;
+                        mYear = c.get(Calendar.YEAR);
+                        mMonth = c.get(Calendar.MONTH);
+                        mDay = c.get(Calendar.DAY_OF_MONTH);
+                        //aici face chestiuta de calendar
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(ProfileActivity.this,
+                                new DatePickerDialog.OnDateSetListener() {
+
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year,
+                                                          int monthOfYear, int dayOfMonth) {
+                                        if (checkdate(mYear, mMonth + 1, mDay, year, monthOfYear + 1, dayOfMonth))
+                                            mdateEt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                        else
+                                            makeToast("This date is not valid");
+                                    }
+                                }, mYear, mMonth, mDay);
+                        datePickerDialog.show();
                     }
                 });
                 mspeciesRG.check(R.id.dogRb);
 
-                new_pet_dialog.setView(dialog_view);
-
-                final AlertDialog dialog = new_pet_dialog.create();
                 dialog.show();
 
             }
         });
     }
-    void spinner_change_dog(Spinner mraceSpinner){
-        mraceSpinner.setAdapter(new ArrayAdapter<Dog_breed>(ProfileActivity.this,
-                android.R.layout.simple_spinner_item,Dog_breed.values()));
 
-    }
-    void spinner_change_cat(Spinner mraceSpinner){
-        mraceSpinner.setAdapter(new ArrayAdapter<Cat_breed>(ProfileActivity.this,
-                android.R.layout.simple_spinner_item,Cat_breed.values()));
-
-    }
-    void add_pet(boolean isDog, String name,Date birthday, Dog_breed dog_breed,Cat_breed cat_breed){
-            if(name.equals("")|| birthday.equals(""))
-            {  makeToast("You should fill in all the fields");
-                return;}
-
-            if(!isBirthdayValid(birthday)){
-                Log.v("log","nu e valida saracia");
-                makeToast("Birthday is not valid");
-                return;
-            }
-            if(isDog==true){
-                Pet.Dog doggo=new Pet.Dog(Pet.getNewID(),name,birthday,dog_breed);
-            }
-            else{
-                Pet.Cat cat=new Pet.Cat(Pet.getNewID(),name,birthday,cat_breed);
-            }
-
-    }
-    boolean isBirthdayValid(Date birthday){
-
-        if(System.currentTimeMillis()>birthday.getTime() && ((System.currentTimeMillis()-birthday.getTime())/1000<630720000))
-        {
-            Log.v("log","a dat true isbirthdayvalid");
-            return true;
-        }
-        else {
-            Log.v("log","a dat false isbirthdayvalid");
+    boolean checkdate(int cyear, int cmonth, int cday, int year, int month, int day){
+        if(cyear-year>30)
             return false;
+        if(cyear<year)
+            return false;
+        if(cyear==year && cmonth<month)
+            return false;
+        if(cyear==year && cmonth==month && cday<day)
+            return false;
+        return true;
+    }
+
+    void spinner_change_dog(Spinner mraceSpinner) {
+        mraceSpinner.setAdapter(new ArrayAdapter<Dog_breed>(ProfileActivity.this,
+                android.R.layout.simple_spinner_item, Dog_breed.values()));
+
+    }
+
+    void spinner_change_cat(Spinner mraceSpinner) {
+        mraceSpinner.setAdapter(new ArrayAdapter<Cat_breed>(ProfileActivity.this,
+                android.R.layout.simple_spinner_item, Cat_breed.values()));
+
+    }
+
+    void add_pet(boolean isDog, String name, String birthday, Dog_breed dog_breed, Cat_breed cat_breed) {
+        if (name.equals("") || birthday.equals("")) {
+            makeToast("You should fill in all the fields");
+            return;
+        }
+
+       /* if (!isBirthdayValid(birthday)) {
+            Log.v("log", "nu e valida saracia");
+            makeToast("Birthday is not valid");
+            return;
+        }*/
+
+        if(!photo) {
+            makeToast("Please add a photo of your pet");
+            return;
+        }
+
+        String Id = Pet.getNewID();
+        if (!user.getPetId().equals("null")) {
+            mDatabase.child("pet").child(user.getPetId()).removeValue();
+            mStorageRef.child(user.getPetId()).delete();
+        }
+        user.setPetId(Id);
+        mStorageRef.child(Id).putFile(file);
+        mDatabase.child("id").child(FirebaseAuth.getInstance().getUid()).child("petId").setValue(Id);
+        if (isDog) {
+            Pet.Dog doggo = new Pet.Dog(Pet.getNewID(), name, birthday, dog_breed);
+            mDatabase.child("pet").child(Id).setValue(doggo);
+        } else {
+            Pet.Cat cat = new Pet.Cat(Pet.getNewID(), name, birthday, cat_breed);
+            mDatabase.child("pet").child(Id).setValue(cat);
         }
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //pentru cand vine din galerie
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            file = data.getData();
+            {
+                file = data.getData();
+                photo = true;
+            }
             //timerul e doar ca sa se bifeze casuta in fata userului
             //TODO:Rezolva checkbox-ul
             CountDownTimer count = new CountDownTimer(1500, 1000) {
@@ -157,14 +221,14 @@ public class ProfileActivity extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
-                  //  checkBox.setChecked(true);
+                    //  checkBox.setChecked(true);
                 }
             }.start();
 
         }
     }
-    void makeToast(String x){
-        Toast.makeText(ProfileActivity.this,x,Toast.LENGTH_SHORT);
-    }
 
+    void makeToast(String x) {
+        Toast.makeText(this, x, Toast.LENGTH_SHORT).show();
+    }
 }
