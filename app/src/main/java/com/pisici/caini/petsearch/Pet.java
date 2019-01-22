@@ -1,9 +1,8 @@
 package com.pisici.caini.petsearch;
 
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 enum Dog_breed{
     Akita ("Akita"), Pomeranian ("Pomeranian"), Bulldog ("Bulldog");
@@ -30,22 +29,22 @@ enum Cat_breed{
 public class Pet {
     private String id;
     String name;
-    private Date birthday;
+    private String birthday;
 
-    public Pet(String id, String name, Date birtday) {
+    public Pet(String id, String name, String birthday) {
         this.id = id;
         this.name = name;
-        this.birthday = birtday;
+        this.birthday = birthday;
     }
 
     public Pet(){};
 
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -60,7 +59,7 @@ public class Pet {
     public static class Dog extends Pet{
         Dog_breed dog_breed;
 
-        public Dog(String id, String name,Date birthday, Dog_breed dog_breed) {
+        public Dog(String id, String name,String birthday, Dog_breed dog_breed) {
             super(id, name, birthday);
             this.dog_breed = dog_breed;
         }
@@ -78,7 +77,7 @@ public class Pet {
     public static class Cat extends Pet{
         Cat_breed cat_breed;
 
-        public Cat(String id, String name,Date birthday, Cat_breed cat_breed) {
+        public Cat(String id, String name,String birthday, Cat_breed cat_breed) {
             super(id, name, birthday);
             this.cat_breed = cat_breed;
         }
@@ -94,7 +93,6 @@ public class Pet {
         }
     }
     public static String getNewID() {
-        // generate random lobby key
         String key = "";
         for (int i = 0; i < 20; ++i) {
             Random r = new Random();
@@ -106,5 +104,17 @@ public class Pet {
         }
         return key;
     }
-    //TODO: Add age calculator
+    public int getAge(){
+        String[] items=this.birthday.split("-");
+        int day=Integer.parseInt(items[0]);
+        int month=Integer.parseInt(items[1]);
+        int year=Integer.parseInt(items[2]);
+        Calendar user_birthday = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+        user_birthday.set(year,month-1,day);
+        int age = today.get(Calendar.YEAR) - user_birthday.get(Calendar.YEAR);
+        if (today.get(Calendar.DAY_OF_YEAR) < user_birthday.get(Calendar.DAY_OF_YEAR))
+            age--;
+        return age;
+    }
 }
