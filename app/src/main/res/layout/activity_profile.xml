@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".ProfileActivity">
 
     <ScrollView
@@ -11,8 +12,10 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,12 +28,12 @@
                 android:layout_marginStart="72dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="72dp"
-                android:text="Email"
+                android:background="@drawable/editstyletext"
                 android:ems="10"
                 android:gravity="center_vertical"
+                android:text="Email"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
-                android:background="@drawable/editstyletext"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -51,6 +54,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="0dp"
@@ -59,7 +63,28 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars[3]" />
+                tools:srcCompat="@drawable/dog_pet_avatar" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/petimageroundedcorders"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/roundedcornersfiller"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageView4"
@@ -68,10 +93,10 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="200dp"
                 android:layout_marginEnd="8dp"
+                android:src="@drawable/avatarplaceholder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView3"
-                android:src="@drawable/avatarplaceholder" />
+                app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
             <TextView
                 android:id="@+id/textView"
@@ -80,11 +105,11 @@
                 android:layout_marginStart="72dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="72dp"
-                android:text="Name"
-                android:gravity="center_vertical"
-                android:textSize="16dp"
-                android:textColor="@color/colorPrimaryDark"
                 android:background="@drawable/editstyletext"
+                android:gravity="center_vertical"
+                android:text="Name"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView4" />
@@ -96,11 +121,11 @@
                 android:layout_marginStart="72dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="72dp"
+                android:background="@drawable/editstyletext"
                 android:gravity="center_vertical"
                 android:text="Phone number"
-                android:textSize="16dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:background="@drawable/editstyletext"
+                android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailTV" />
@@ -112,11 +137,11 @@
                 android:layout_marginStart="72dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="72dp"
+                android:background="@drawable/editstyletext"
                 android:gravity="center_vertical"
                 android:text="Adress"
-                android:textSize="16dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:background="@drawable/editstyletext"
+                android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -128,11 +153,11 @@
                 android:layout_marginStart="72dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="72dp"
+                android:background="@drawable/editstyletext"
                 android:gravity="center_vertical"
                 android:text="Birth Date"
-                android:textSize="16dp"
                 android:textColor="@color/colorPrimaryDark"
-                android:background="@drawable/editstyletext"
+                android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
