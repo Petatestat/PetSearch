@@ -33,6 +33,7 @@ import java.util.Date;
 public class ProfileActivity extends AppCompatActivity {
     TextView mnameTv;
     Button maddpetBtn;
+    Button missingBtn;
     Uri file;
     User user;
     Boolean photo;
@@ -49,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
         maddpetBtn = (Button) findViewById(R.id.addpetBtn);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        missingBtn=(Button) findViewById(R.id.missingBtn);
         user = (User) getIntent().getSerializableExtra("User");
         photo = false;
         maddpetBtn.setOnClickListener(new View.OnClickListener() {
@@ -105,10 +107,16 @@ public class ProfileActivity extends AppCompatActivity {
                             Log.v("log", "trimis in add_pet cu dog");
                             add_pet(true, mnameEt.getText().toString().trim(), mdateEt.getText().toString().trim(),
                                     (Dog_breed) mraceSpinner.getSelectedItem(), Cat_breed.Bengal);
-                            dialog.cancel();
+
 
                         }
-                        //TODO:add cat branch
+                        else {
+                            Log.v("log", "trimis in add_pet cu cat");
+                            add_pet(false, mnameEt.getText().toString().trim(), mdateEt.getText().toString().trim(),
+                                    Dog_breed.Bulldog, (Cat_breed) mraceSpinner.getSelectedItem());
+                        }
+                        dialog.cancel();
+
                     }
                 });
                 mdateEt.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +147,65 @@ public class ProfileActivity extends AppCompatActivity {
 
                 dialog.show();
 
+            }
+        });
+
+        missingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(user.getPetId().equals("null")){
+                    makeToast("You have not added your pet yet");
+                    return;
+                }
+                AlertDialog.Builder missing_pet_dialog = new AlertDialog.Builder(ProfileActivity.this);
+
+                View dialog_view = getLayoutInflater().inflate(R.layout.missing_prompt, null);
+                final EditText mplaceEt = dialog_view.findViewById(R.id.prompt_placeEt);
+                final EditText mdateEt = dialog_view.findViewById(R.id.prompt_dateEt);
+                final Button mbutton = dialog_view.findViewById(R.id.promptBtn);
+                missing_pet_dialog.setView(dialog_view);
+                final AlertDialog dialog = missing_pet_dialog.create();
+                dialog.show();
+
+                mdateEt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Calendar c = Calendar.getInstance();
+                        final int mDay, mYear, mMonth;
+                        mYear = c.get(Calendar.YEAR);
+                        mMonth = c.get(Calendar.MONTH);
+                        mDay = c.get(Calendar.DAY_OF_MONTH);
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(ProfileActivity.this,
+                                new DatePickerDialog.OnDateSetListener() {
+
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year,
+                                                          int monthOfYear, int dayOfMonth) {
+                                        if (checkdate(mYear, mMonth + 1, mDay, year, monthOfYear + 1, dayOfMonth))
+                                            mdateEt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                        else
+                                            makeToast("This date is not valid");
+                                    }
+                                }, mYear, mMonth, mDay);
+                        datePickerDialog.show();
+                    }
+                });
+
+                mbutton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(mdateEt.getText().toString().trim().equals("") ||
+                                mplaceEt.getText().toString().trim().equals(""))
+                            makeToast("You should fill in all the data");
+                        else{
+                            Announcement ann=new Announcement();
+                            ann.date=mdateEt.getText().toString().trim();
+                            ann.location=mplaceEt.getText().toString().trim();
+                            mDatabase.child("announcement").child(FirebaseAuth.getInstance().getUid()).setValue(ann);
+                            dialog.cancel();
+                        }
+                    }
+                });
             }
         });
     }
@@ -188,6 +255,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (!user.getPetId().equals("null")) {
             mDatabase.child("pet").child(user.getPetId()).removeValue();
             mStorageRef.child(user.getPetId()).delete();
+            mDatabase.child("announcement").child(FirebaseAuth.getInstance().getUid()).removeValue();
         }
         user.setPetId(Id);
         mStorageRef.child(Id).putFile(file);
