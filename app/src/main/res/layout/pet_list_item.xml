@@ -14,13 +14,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintEnd_toStartOf="@+id/ann_LastLocTv"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/ann_PetIv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -31,19 +31,18 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars[2]" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/imageView7"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ann_OwnerIv"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="128dp"
             android:layout_marginTop="88dp"
+            android:src="@drawable/avatarplaceholder"
+            app:civ_border_color="@color/border"
+            app:civ_border_width="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/avatarplaceholder"
-            app:civ_border_width="0dp"
-            app:civ_border_color="@color/border"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -58,23 +57,23 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/ann_BountyTv"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/editstyletext"
-            android:text="TextView"
             android:gravity="center"
+            android:text="TextView"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+            app:layout_constraintTop_toBottomOf="@+id/ann_CollarIv" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/ann_LastLocTv"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
@@ -86,10 +85,10 @@
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/ann_OwnerNameTv" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/ann_PetNameTv"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
@@ -104,17 +103,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/ann_CollarIv"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/ann_LastLocTv"
             app:srcCompat="@android:color/holo_green_dark" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/ann_OwnerNameTv"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
@@ -126,7 +125,7 @@
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/ann_PetNameTv" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
