@@ -63,6 +63,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:visibility="visible"
                 tools:srcCompat="@drawable/dog_pet_avatar" />
 
             <ImageView
@@ -71,20 +72,11 @@
                 android:layout_height="250dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/petimageroundedcorders"
+                android:src="@drawable/roundedcornersfiller"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="0dp"
-                android:layout_height="250dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/roundedcornersfiller"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imageView4"
