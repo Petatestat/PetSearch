@@ -1,9 +1,12 @@
 package com.pisici.caini.petsearch;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.CountDownTimer;
+import android.printservice.PrintService;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,8 +21,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -34,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView mnameTv;
     Button maddpetBtn;
     Button missingBtn;
+    Button mainBtn;
     Uri file;
     User user;
     Boolean photo;
@@ -52,7 +59,17 @@ public class ProfileActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         missingBtn=(Button) findViewById(R.id.missingBtn);
         user = (User) getIntent().getSerializableExtra("User");
+        mainBtn=(Button) findViewById(R.id.mainBtn);
         photo = false;
+
+        mainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(ProfileActivity.this,MainActivity.class);
+                startActivity(i);
+            }
+        });
+
         maddpetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +180,7 @@ public class ProfileActivity extends AppCompatActivity {
                 final EditText mplaceEt = dialog_view.findViewById(R.id.prompt_placeEt);
                 final EditText mdateEt = dialog_view.findViewById(R.id.prompt_dateEt);
                 final Button mbutton = dialog_view.findViewById(R.id.promptBtn);
+                final EditText mbounty = dialog_view.findViewById(R.id.prompt_bountyEt);
                 missing_pet_dialog.setView(dialog_view);
                 final AlertDialog dialog = missing_pet_dialog.create();
                 dialog.show();
@@ -195,14 +213,27 @@ public class ProfileActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if(mdateEt.getText().toString().trim().equals("") ||
-                                mplaceEt.getText().toString().trim().equals(""))
+                                mplaceEt.getText().toString().trim().equals("")
+                                || mbounty.getText().toString().trim().equals(""))
                             makeToast("You should fill in all the data");
                         else{
-                            Announcement ann=new Announcement();
+                           final Announcement ann=new Announcement();
+                            mDatabase.child("pet").child(user.getPetId()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    setPetName(dataSnapshot.getValue().toString(),ann,dialog);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                             ann.date=mdateEt.getText().toString().trim();
                             ann.location=mplaceEt.getText().toString().trim();
-                            mDatabase.child("announcement").child(FirebaseAuth.getInstance().getUid()).setValue(ann);
-                            dialog.cancel();
+                            ann.ownerName=user.getFirst_name();
+                            ann.bounty=mbounty.getText().toString().trim();
+
                         }
                     }
                 });
@@ -269,7 +300,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-
+    void setPetName(String name, Announcement ann, Dialog dialog){
+        ann.petName=name;
+        mDatabase.child("announcement").child(FirebaseAuth.getInstance().getUid()).setValue(ann);
+        dialog.cancel();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

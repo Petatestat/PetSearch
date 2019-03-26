@@ -164,6 +164,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:layout_editor_absoluteY="662dp" />
 
+            <Button
+                android:id="@+id/mainBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Button"
+                app:layout_constraintEnd_toStartOf="@+id/addpetBtn"
+                tools:layout_editor_absoluteY="663dp" />
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

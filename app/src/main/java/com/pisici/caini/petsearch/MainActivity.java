@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayList<Announcement> arr = new ArrayList<>();
+     ArrayList<Announcement> arr = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +36,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("announcement");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 arr.clear();
-                arr.addAll(Announcement.filter(dataSnapshot));
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Announcement curr = ds.getValue(Announcement.class);
+                    arr.add(curr);
+                }
+                ListView mListView = (ListView) findViewById(R.id.resultsLV);
+                MyListAdapter adapter=new MyListAdapter(MainActivity.this,R.layout.pet_list_item,arr);
+                mListView.setAdapter(adapter);
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        ListView mListView = (ListView) findViewById(R.id.resultsLV);
 
+        //Toast.makeText(MainActivity.this,arr.get(0).getLocation(), Toast.LENGTH_SHORT).show();
+    }
+
+    public class ViewHolder {
+        TextView mPetNameTv;
+        TextView mOwnerTv;
+        TextView mLocationTv;
+        TextView mBountyTv;
+        TextView mDateTv;
+        ImageView mPetImage;
     }
 
     private class MyListAdapter extends ArrayAdapter<Announcement> {
@@ -57,13 +76,6 @@ public class MainActivity extends AppCompatActivity {
             layout = resource;
         }
 
-        public class ViewHolder {
-            TextView mSportTv;
-            TextView mPlayersTv;
-            TextView mLocationTv;
-            TextView mTimeTv;
-            Button mJoinBtn;
-        }
 
         @NonNull
         @Override
@@ -73,43 +85,30 @@ public class MainActivity extends AppCompatActivity {
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 convertView = inflater.inflate(layout, parent, false);
-                MainActivity.ViewHolder viewHolder = new MainActivity().ViewHolder();
+                MainActivity.ViewHolder viewHolder = new MainActivity.ViewHolder();
 
-                viewHolder.mSportTv = (TextView) convertView.findViewById(R.id.resultsSportTV);
-                viewHolder.mSportTv.setText(getItem(position).getSport().toString());
+                viewHolder.mPetNameTv = (TextView) convertView.findViewById(R.id.ann_PetNameTv);
+                viewHolder.mPetNameTv.setText(getItem(position).getPetName());
 
-                viewHolder.mJoinBtn = (Button) convertView.findViewById(R.id.joinLobbyBtn);
+                viewHolder.mOwnerTv = (TextView) convertView.findViewById(R.id.ann_OwnerNameTv);
+                viewHolder.mOwnerTv.setText(getItem(position).getOwnerName());
 
-                viewHolder.mPlayersTv = (TextView) convertView.findViewById(R.id.resultsPlayersTV);
-                viewHolder.mPlayersTv.setText(getItem(position).getSize() + "/" + getItem(position).getMaxSize());
+                viewHolder.mLocationTv = (TextView) convertView.findViewById(R.id.ann_LastLocTv);
+                viewHolder.mLocationTv.setText(getItem(position).getLocation());
 
-                viewHolder.mLocationTv = (TextView) convertView.findViewById(R.id.locationTV);
-                viewHolder.mLocationTv.setText(getItem(position).getLocationName());
+                viewHolder.mBountyTv= (TextView) convertView.findViewById(R.id.ann_BountyTv);
+                viewHolder.mBountyTv.setText(getItem(position).getBounty());
 
-                viewHolder.mTimeTv=(TextView) convertView.findViewById(R.id.results_timeTV);
-                viewHolder.mTimeTv.setText(getItem(position).getDay()+"/"+(getItem(position).getMonth()+1)+"  "+getItem(position).getHour()
-                        +":"+getItem(position).getMinute());
+                viewHolder.mPetImage= (ImageView) convertView.findViewById(R.id.ann_PetIv);
 
-                viewHolder.mJoinBtn = (Button) convertView.findViewById(R.id.joinLobbyBtn);
-                viewHolder.mJoinBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(ResultsActivity.this, LobbyActivity.class);
-                        intent.putExtra("User", user);
-                        LobbySports mlobby=(LobbySports)getItem(position);
-                        mlobby.addUser(FirebaseAuth.getInstance().getUid());
-                        intent.putExtra("Lobby", mlobby);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-                        finish();
-                    }
-                });
+
                 convertView.setTag(viewHolder);
             } else {
-                mainViewHolder = (ResultsActivity.ViewHolder) convertView.getTag();
-                mainViewHolder.mSportTv.setText(getItem(position).getSport().toString());
-                mainViewHolder.mPlayersTv.setText(getItem(position).getSize() + "/" + getItem(position).getMaxSize());
-                mainViewHolder.mLocationTv.setText(getItem(position).getLocationName());
+                mainViewHolder = (MainActivity.ViewHolder) convertView.getTag();
+                mainViewHolder.mPetNameTv.setText(getItem(position).getPetName());
+                mainViewHolder.mOwnerTv.setText(getItem(position).getOwnerName());
+                mainViewHolder.mLocationTv.setText(getItem(position).getLocation());
+                mainViewHolder.mBountyTv.setText(getItem(position).getBounty());
             }
 
             return convertView;
