@@ -8,14 +8,14 @@
     tools:context=".ProfileActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,17 +42,16 @@
                 android:id="@+id/addpetBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="72dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
                 android:background="@drawable/buttonstyle"
                 android:text="@string/addpet"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                app:layout_constraintVertical_bias="1.0" />
 
 
             <ImageView
@@ -60,10 +59,10 @@
                 android:layout_width="0dp"
                 android:layout_height="250dp"
                 android:layout_marginTop="8dp"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:visibility="visible"
                 tools:srcCompat="@drawable/dog_pet_avatar" />
 
             <ImageView
@@ -158,9 +157,12 @@
                 android:id="@+id/missingBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="72dp"
                 android:text="Pet missing"
-                app:layout_constraintBaseline_toBaselineOf="@+id/addpetBtn"
-                tools:layout_editor_absoluteX="265dp" />
+                android:textColor="@color/white"
+                android:background="@drawable/buttonstyle"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="662dp" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
