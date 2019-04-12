@@ -159,11 +159,10 @@ public class LoginActivity extends AppCompatActivity {
                 user = dataSnapshot.child("id").child(uid).getValue(User.class);
                 //daca nu, te duce in meniu
                 Log.v("log", "trimis in meniu din onDataChange");
-                Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 i.putExtra("User", user);
                 startActivity(i);
-               // finish();
-                makeToast(user.getFirst_name());
+                finish();
             }
 
             @Override

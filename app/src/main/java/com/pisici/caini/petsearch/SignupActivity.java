@@ -158,7 +158,7 @@ public class SignupActivity extends AppCompatActivity {
     //pune ce mai trebuie in database
     void setvalues() {
         muser = new User(mfirstnameEt.getText().toString().trim(), mlastnameEt.getText().toString().trim(),
-                memailEt.getText().toString(), mphoneEt.getText().toString());
+                memailEt.getText().toString(), mphoneEt.getText().toString(),"null");
 
         if(checkBox.isChecked())
         {StorageReference ref = mStorageRef.child(user.getUid());

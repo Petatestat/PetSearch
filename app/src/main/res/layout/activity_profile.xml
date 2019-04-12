@@ -66,7 +66,7 @@
                 tools:srcCompat="@drawable/dog_pet_avatar" />
 
             <ImageView
-                android:id="@+id/ann_CollarIv"
+                android:id="@+id/profile_petPhoto"
                 android:layout_width="0dp"
                 android:layout_height="250dp"
                 android:layout_marginTop="8dp"
@@ -130,7 +130,7 @@
                 android:layout_marginEnd="72dp"
                 android:background="@drawable/editstyletext"
                 android:gravity="center_vertical"
-                android:text="Adress"
+                android:text="Pet name"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +146,7 @@
                 android:layout_marginEnd="72dp"
                 android:background="@drawable/editstyletext"
                 android:gravity="center_vertical"
-                android:text="Birth Date"
+                android:text="Pet species"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"

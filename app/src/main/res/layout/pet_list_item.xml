@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/ann_PetIv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -67,10 +67,9 @@
             android:gravity="center"
             android:text="TextView"
             android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ann_CollarIv" />
+            app:layout_constraintTop_toBottomOf="@+id/ann_LastLocTv" />
 
         <TextView
             android:id="@+id/ann_LastLocTv"
@@ -80,8 +79,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/editstyletext"
-            android:text="TextView"
             android:gravity="center"
+            android:text="TextView"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,16 +101,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/ann_CollarIv"
-            android:layout_width="0dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ann_LastLocTv"
-            app:srcCompat="@android:color/holo_green_dark" />
-
         <TextView
             android:id="@+id/ann_OwnerNameTv"
             android:layout_width="0dp"
@@ -126,6 +115,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ann_PetNameTv" />
+
+        <Button
+            android:id="@+id/ann_contactBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Contact owner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ann_BountyTv" />
+
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
