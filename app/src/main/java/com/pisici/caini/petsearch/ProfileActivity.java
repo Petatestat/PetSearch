@@ -4,8 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.CountDownTimer;
-import android.printservice.PrintService;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,15 +32,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 public class ProfileActivity extends AppCompatActivity {
     TextView mnameTv;
+    TextView memailTv;
+    TextView mphoneTv;
+    TextView mpetNameTv;
     ImageView petPhoto;
     Button maddpetBtn;
     Button missingBtn;
@@ -58,7 +54,10 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        mnameTv = (TextView) findViewById(R.id.emailTV);
+        mnameTv = (TextView) findViewById(R.id.profile_nameTv);
+        memailTv= (TextView) findViewById(R.id.profile_emailTv);
+        mphoneTv= (TextView) findViewById(R.id.profile_phoneTv);
+        mpetNameTv= (TextView) findViewById(R.id.profile_petNameTv);
         maddpetBtn = (Button) findViewById(R.id.addpetBtn);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -348,6 +347,23 @@ public class ProfileActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+        mnameTv.setText(user.getFirst_name()+" "+user.getLast_name());
+        memailTv.setText(user.getEmail());
+        mphoneTv.setText(user.getPhone());
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference myRef = database;
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mpetNameTv.setText(dataSnapshot.child("pet").child(user.getPetId()).child("name").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

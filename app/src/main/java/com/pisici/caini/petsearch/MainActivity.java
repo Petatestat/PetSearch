@@ -13,10 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -75,6 +73,20 @@ public class MainActivity extends AppCompatActivity {
                 Intent i=new Intent(MainActivity.this,ProfileActivity.class);
                 i.putExtra("User",user);
                 startActivity(i);
+            }
+        });
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference myRef = database;
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user = dataSnapshot.child("id").child(uid).getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
