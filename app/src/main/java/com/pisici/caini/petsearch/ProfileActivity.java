@@ -46,7 +46,6 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView petPhoto;
     Button maddpetBtn;
     Button missingBtn;
-    Button mainBtn;
     Uri file;
     User user;
     Boolean photo;
@@ -65,19 +64,10 @@ public class ProfileActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         missingBtn=(Button) findViewById(R.id.missingBtn);
         user = (User) getIntent().getSerializableExtra("User");
-        mainBtn=(Button) findViewById(R.id.mainBtn);
         petPhoto=(ImageView) findViewById(R.id.profile_petPhoto);
         photo = false;
 
         putData();
-
-        mainBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(ProfileActivity.this,MainActivity.class);
-                startActivity(i);
-            }
-        });
 
         maddpetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +173,15 @@ public class ProfileActivity extends AppCompatActivity {
                     makeToast("You have not added your pet yet");
                     return;
                 }
+                else if(user.isMissing())
+                {
+                    user.setMissing(false);
+                    mDatabase.child("announcement").child(FirebaseAuth.getInstance().getUid()).removeValue();
+                    missingBtn.setText("Pet missing");
+                    mDatabase.child("id").child(FirebaseAuth.getInstance().getUid()).child("missing").setValue(false);
+                }
+                else{
+
                 AlertDialog.Builder missing_pet_dialog = new AlertDialog.Builder(ProfileActivity.this);
 
                 View dialog_view = getLayoutInflater().inflate(R.layout.missing_prompt, null);
@@ -243,11 +242,13 @@ public class ProfileActivity extends AppCompatActivity {
                             ann.ownerName=user.getFirst_name();
                             ann.bounty=mbounty.getText().toString().trim();
                             ann.ownerPhone=user.getPhone();
-
+                            user.setMissing(true);
+                            mDatabase.child("id").child(FirebaseAuth.getInstance().getUid()).child("missing").setValue(true);
+                            missingBtn.setText("I found my pet");
                         }
                     }
                 });
-            }
+            }}
         });
     }
 
@@ -326,19 +327,6 @@ public class ProfileActivity extends AppCompatActivity {
                 file = data.getData();
                 photo = true;
             }
-            //timerul e doar ca sa se bifeze casuta in fata userului
-            //TODO:Rezolva checkbox-ul
-            CountDownTimer count = new CountDownTimer(1500, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                }
-
-                @Override
-                public void onFinish() {
-                    //  checkBox.setChecked(true);
-                }
-            }.start();
-
         }
     }
 
@@ -347,6 +335,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     void putData(){
+       if(user.isMissing())
+           missingBtn.setText("I found my pet");
         StorageReference storageReference=FirebaseStorage.getInstance().getReference();
         storageReference.child(user.getPetId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

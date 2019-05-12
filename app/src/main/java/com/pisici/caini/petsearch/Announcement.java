@@ -1,13 +1,8 @@
 package com.pisici.caini.petsearch;
 
-import android.location.Location;
 import android.util.Log;
-
 import com.google.firebase.database.DataSnapshot;
-
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 public class Announcement {
     String petId;

@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         TextView mOwnerTv;
         TextView mLocationTv;
         TextView mBountyTv;
-        TextView mDateTv;
         ImageView mPetImage;
         Button mContactBtn;
     }

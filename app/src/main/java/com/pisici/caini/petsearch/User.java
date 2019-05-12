@@ -59,4 +59,12 @@ public class User implements Serializable {
     public void setPetId(String petId) {
         PetId = petId;
     }
+
+    public boolean isMissing() {
+        return missing;
+    }
+
+    public void setMissing(boolean missing) {
+        this.missing = missing;
+    }
 }
