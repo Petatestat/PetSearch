@@ -8,6 +8,7 @@ public class User implements Serializable {
     private String Email= "null";
     private String Phone= "null";
     private String PetId="null";
+    private boolean missing=false;
 
     public User(String first_name,String last_name,String email, String phone,String petId) {
         First_name = first_name;
@@ -15,6 +16,7 @@ public class User implements Serializable {
         Email=email;
         Phone=phone;
         PetId=petId;
+        missing=false;
     }
     public User(){}
 
