@@ -9,11 +9,12 @@ public class User implements Serializable {
     private String Phone= "null";
     private String PetId="null";
 
-    public User(String first_name,String last_name,String email, String phone) {
+    public User(String first_name,String last_name,String email, String phone,String petId) {
         First_name = first_name;
         Last_name=last_name;
         Email=email;
         Phone=phone;
+        PetId=petId;
     }
     public User(){}
 

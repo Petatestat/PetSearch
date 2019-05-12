@@ -16,10 +16,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,6 +43,7 @@ import java.util.Date;
 
 public class ProfileActivity extends AppCompatActivity {
     TextView mnameTv;
+    ImageView petPhoto;
     Button maddpetBtn;
     Button missingBtn;
     Button mainBtn;
@@ -60,7 +66,10 @@ public class ProfileActivity extends AppCompatActivity {
         missingBtn=(Button) findViewById(R.id.missingBtn);
         user = (User) getIntent().getSerializableExtra("User");
         mainBtn=(Button) findViewById(R.id.mainBtn);
+        petPhoto=(ImageView) findViewById(R.id.profile_petPhoto);
         photo = false;
+
+        putData();
 
         mainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,6 +242,7 @@ public class ProfileActivity extends AppCompatActivity {
                             ann.location=mplaceEt.getText().toString().trim();
                             ann.ownerName=user.getFirst_name();
                             ann.bounty=mbounty.getText().toString().trim();
+                            ann.ownerPhone=user.getPhone();
 
                         }
                     }
@@ -302,6 +312,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     void setPetName(String name, Announcement ann, Dialog dialog){
         ann.petName=name;
+        ann.petId=user.getPetId();
         mDatabase.child("announcement").child(FirebaseAuth.getInstance().getUid()).setValue(ann);
         dialog.cancel();
     }
@@ -333,5 +344,22 @@ public class ProfileActivity extends AppCompatActivity {
 
     void makeToast(String x) {
         Toast.makeText(this, x, Toast.LENGTH_SHORT).show();
+    }
+
+    void putData(){
+        StorageReference storageReference=FirebaseStorage.getInstance().getReference();
+        storageReference.child(user.getPetId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(ProfileActivity.this)
+                        .load(uri)
+                        .into(petPhoto);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
 }

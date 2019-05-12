@@ -25,6 +25,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_profileBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/main_profileBtn" >
+
+    </ListView>
+
+    <ImageView
+        android:id="@+id/main_fullImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:srcCompat="@drawable/avatarplaceholder" />
 
 </android.support.constraint.ConstraintLayout>
