@@ -359,6 +359,7 @@ public class ProfileActivity extends AppCompatActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("pet").child(user.getPetId()).child("name").getValue()!=null)
                 mpetNameTv.setText(dataSnapshot.child("pet").child(user.getPetId()).child("name").getValue().toString());
             }
 
